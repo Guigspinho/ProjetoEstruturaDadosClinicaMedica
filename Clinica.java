@@ -133,8 +133,8 @@ public class Clinica {
         int cont = 0;
         while (aux != null) {
             String[] vet = aux.split(";");
-            Paciente p1 = new Paciente(Integer.parseInt(vet[0]), vet[1], vet[2], vet[3], Double.parseDouble(vet[4]));
-            pacientes.add(cont, p1);
+            //Paciente p1 = new Paciente(Integer.parseInt(vet[0]), vet[1], vet[2], vet[3], Double.parseDouble(vet[4]));
+            //pacientes.add(cont, p1);
             cont++;
             aux = linha.readLine();
         }
