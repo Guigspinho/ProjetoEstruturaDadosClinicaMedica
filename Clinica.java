@@ -1,7 +1,8 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Scanner;
-
+/*Guilherme Gomes Pinho - 10755529
+Moabe Guedes - 10748053 */
 public class Clinica {
 
     private Vetor <Paciente> pacientes;
