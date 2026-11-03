@@ -45,7 +45,7 @@ public class Clinica {
                     if (pacientesCarregados == true) {
                         System.out.println("Pacientes já foram carregados.");
                     }
-                    
+
                     if (pacientesCarregados == false) {
                         carregaTXT();
                         System.out.println("Pacientes Carregados");
@@ -150,8 +150,9 @@ public class Clinica {
 
     //Métodos para implementação
      private void consultarPaciente() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'consultarPaciente'");
+        System.out.print("Digite o CPF do paciente: ");
+        String cpf = entrada.nextLine();
+        boolean pacienteEncontrado = false;
     }
 
     private void registrarChegada() {
