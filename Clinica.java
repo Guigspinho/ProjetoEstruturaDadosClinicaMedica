@@ -5,14 +5,16 @@ import java.util.Scanner;
 Moabe Guedes - 10748053 */
 public class Clinica {
 
-    //private Vetor <Paciente> pacientes;
-    private BinaryTree pacientes = new BinaryTree();
+    private Vetor <Paciente> filaEspera;
+    private BinaryTree pacientes;
+    
     Scanner entrada = new Scanner(System.in);
     
     Boolean pacientesCarregados = false;
 
     public Clinica() {
         pacientes = new BinaryTree();
+        filaEspera = new Vetor<Paciente>(60);
     }
 
     public void exibirMenu() throws Exception {
@@ -152,7 +154,6 @@ public class Clinica {
         System.out.println("Pacientes carregados: " + cont);
     }
 
-    //Métodos para implementação
      private void consultarPaciente() {
         System.out.print("Digite o CPF do paciente: ");
         String cpf = entrada.nextLine();
@@ -166,9 +167,37 @@ public class Clinica {
         }
     }
 
-    private void registrarChegada() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'registrarChegada'");
+    //Métodos para implementação
+    private void registrarChegada() throws Exception {
+        System.out.print("Digite o CPF do paciente: ");
+        String cpf = entrada.nextLine();
+        Node aux = new Node(new Paciente(cpf, "", "", ""));
+        Node pacienteEncontrado = pacientes.busca(aux);
+
+        if (filaEspera.size() >= 60) {
+            System.out.println("A fila de espera está cheia. Não é possível registrar a chegada do paciente.");
+            return;
+        }
+        if (pacienteEncontrado != null) {
+            System.out.println("Paciente encontrado:");
+            pacienteEncontrado.paciente.mostraPaciente();
+            Paciente pacienteTemp = pacienteEncontrado.paciente;
+            filaEspera.add(filaEspera.size(), pacienteTemp);
+        } else {
+            System.out.println("Paciente não encontrado. Complete o cadastro do paciente.");
+            System.out.print("Digite o nome do paciente: ");
+            String nome = entrada.nextLine();
+            System.out.print("Digite a data de nascimento do paciente (dd/mm/aaaa): ");
+            String dataNascimento = entrada.nextLine();
+            System.out.print("Digite o telefone do paciente: ");
+            String telefone = entrada.nextLine();
+            Paciente novoPaciente = new Paciente(cpf, nome, dataNascimento, telefone);
+            Node novoNode = new Node(novoPaciente);
+            pacientes.insere(novoNode);
+            System.out.println("Paciente cadastrado com sucesso.");
+            filaEspera.add(filaEspera.size(), novoPaciente);
+        }
+        System.out.println("\nPaciente registrado na fila de espera com sucesso. Lugar na fila: " + filaEspera.size());
     }
 
     private void exibirFilaEspera() {
