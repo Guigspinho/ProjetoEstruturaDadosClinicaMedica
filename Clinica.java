@@ -7,9 +7,12 @@ public class Clinica {
 
     private Vetor <Paciente> pacientes;
     Scanner entrada = new Scanner(System.in);
+    
     Boolean pacientesCarregados = false;
 
-
+    public Clinica() {
+        pacientes = new Vetor <Paciente> (1000);
+    }
 
     public void exibirMenu() throws Exception {
         int selecaoMenu;
@@ -39,13 +42,15 @@ public class Clinica {
             switch (selecaoMenu) {
 
                 case 1:
+                    if (pacientesCarregados == true) {
+                        System.out.println("Pacientes já foram carregados.");
+                    }
+                    
                     if (pacientesCarregados == false) {
                         carregaTXT();
                         System.out.println("Pacientes Carregados");
                     }
-                    if (pacientesCarregados == true) {
-                        System.out.println("Pacientes já foram carregados.");
-                    }
+                    
                     break;
 
                 case 2:
@@ -82,7 +87,7 @@ public class Clinica {
 
                 case 6:
                     if (pacientesCarregados == false) {
-                        System.out.println("É necessário carregar os espetáculos antes de acessar essa opção.");
+                        System.out.println("É necessário carregar os pacientes antes de acessar essa opção.");
                         break;
                     }
                     relatorioDiario();
@@ -90,7 +95,7 @@ public class Clinica {
 
                 case 7:
                     if (pacientesCarregados == false) {
-                        System.out.println("É necessário carregar os espetáculos antes de acessar essa opção.");
+                        System.out.println("É necessário carregar os pacientes antes de acessar essa opção.");
                         break;
                     }
                     listarPacientes();
@@ -98,7 +103,7 @@ public class Clinica {
 
                 case 8:
                     if (pacientesCarregados == false) {
-                        System.out.println("É necessário carregar os espetáculos antes de acessar essa opção.");
+                        System.out.println("É necessário carregar os pacientes antes de acessar essa opção.");
                         break;
                     }
                     atualizarTXT();
@@ -106,7 +111,7 @@ public class Clinica {
 
                 case 9:
                     if (pacientesCarregados == false) {
-                        System.out.println("É necessário carregar os espetáculos antes de acessar essa opção.");
+                        System.out.println("É necessário carregar os pacientes antes de acessar essa opção.");
                         break;
                     }
                     funcAdicional();
@@ -128,14 +133,14 @@ public class Clinica {
 
 
     public void carregaTXT() throws Exception {
-        FileReader arquivo = new FileReader("dadosEspetaculos.txt");
+        FileReader arquivo = new FileReader("pacientes.txt");
         BufferedReader linha = new BufferedReader(arquivo);
         String aux = linha.readLine();
         int cont = 0;
         while (aux != null) {
             String[] vet = aux.split(";");
-            //Paciente p1 = new Paciente(Integer.parseInt(vet[0]), vet[1], vet[2], vet[3], Double.parseDouble(vet[4]));
-            //pacientes.add(cont, p1);
+            Paciente p1 = new Paciente((vet[0]), vet[1], vet[2], Long.parseLong(vet[3]), vet[4], Integer.parseInt(vet[5]));
+            pacientes.add(cont, p1);
             cont++;
             aux = linha.readLine();
         }
