@@ -2,11 +2,11 @@ public class Paciente {
     private String CPF;
     private String nome;
     private String dataNascimento;
-    private long telefone;
+    private String telefone;
     private String ultimaConsulta;
     private int qtdeConsultas;
 
-    public Paciente (String CPF, String nome, String dataNascimento, long telefone) {
+    public Paciente (String CPF, String nome, String dataNascimento, String telefone) {
         this.telefone = telefone;
         this.CPF = CPF;
         this.nome = nome;
@@ -15,7 +15,7 @@ public class Paciente {
         this.qtdeConsultas = 0;
     }
 
-    public Paciente (String CPF, String nome, String dataNascimento, long telefone, String ultimaConsulta, int qtdeConsultas) {
+    public Paciente (String CPF, String nome, String dataNascimento, String telefone, String ultimaConsulta, int qtdeConsultas) {
         this.telefone = telefone;
         this.CPF = CPF;
         this.nome = nome;
@@ -35,4 +35,11 @@ public class Paciente {
         System.out.println("QUANTIDADE DE CONSULTAS: " + qtdeConsultas);
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public String getCPF() {
+        return CPF;
+    }
 }

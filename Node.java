@@ -1,17 +1,17 @@
 /*Guilherme Gomes Pinho - 10755529
 Moabe Guedes - 10748053 */
 public class Node {
-    String pasta;
-    Node pai;
-    Node dir;
-    Node esq;
+    Paciente paciente;
+    Node parent;
+    Node right;
+    Node left;
     
-    public Node (String pasta) {
-        this.pasta = pasta;
-        pai = dir = esq = null;
+    Node(Paciente paciente) {
+        this.paciente = paciente;
+        left = right = parent = null;
     }
-    
-    public void mostraNode() {
-        System.out.println(pasta + " - ");
-    }
+
+    public void mostraNo(){
+        System.out.print(paciente.getNome() + " ");
+    }  
 }

@@ -1,98 +1,152 @@
-/*Guilherme Gomes Pinho - 10755529
-Moabe Guedes - 10748053 */
-class BinaryTree {
-    
-    Node raiz;
-    
-    public BinaryTree() {
-        //cria arvore vazia
-        raiz = null;
+
+public class BinaryTree {
+
+    private Node root; // raiz da árvore   
+
+    BinaryTree() {
+        // Cria uma árvore binária vazia  
+        root = null;
     }
-    
+
     public boolean isEmpty() {
-        if (raiz == null) {
-            return true;
-        } else {
-            return false;
-        }
+        // Verifica se a árvore está vazia    
+        return root == null;
     }
-    
-    public void addRoot (Node x) throws Exception {
-        //adicione o nó x como raiz da arvore
-        if (raiz != null) {
-            throw new Exception("Erro - A árvore já tem uma raiz");
-        }
-        raiz = x;
-    }
-    
+
     public Node root() {
-        return raiz;
+        // Devolve a raiz da árvore.   
+        return root;
     }
-    
-    public boolean isInternal(Node x) {
-        //verificar se o nó x é Interno
-        if (x.esq != null || x.dir != null) {
-            return true;
-        } else {
-            return false;
+
+    public boolean isLeaf(Node n) {
+        // Verifica se um nó n é uma folha
+        return n.left == null && n.right == null;
+    }
+
+    public void executaPreOrdem(Node no) {
+        if (no == null) {
+            return;
         }
+        no.mostraNo();
+        executaPreOrdem(no.left);
+        executaPreOrdem(no.right);
     }
-    
-    public boolean isLeaf (Node x) {
-        //verifica se nó x é folha
-        if (x.esq == null && x.dir == null) {
-            return true;
-        } else {
-            return false;
+
+    public void executaInOrdem(Node no) {
+        if (no == null) {
+            return;
         }
+        executaInOrdem(no.left);
+        no.mostraNo();
+        executaInOrdem(no.right);
     }
-    
-    public void addLeft(Node x, Node y) throws Exception {
-        //adiciona o nó x como filho esquerdo de y
-        if (hasLeft(y)) {
-            throw new Exception ("Erro - o nó já tem filho esquerdo!");
+
+    public void executaPosOrdem(Node no) {
+        if (no == null) {
+            return;
         }
-        x.pai = y;
-        y.esq = x;
+        executaPosOrdem(no.left);
+        executaPosOrdem(no.right);
+        no.mostraNo();
     }
-    
-    public void addRight(Node x, Node y) throws Exception {
-        //adiciona o nó x como filho direito de y
-        if (hasRight(y)) {
-            throw new Exception ("Erro - o nó já tem filho direito!");
-        }
-        x.pai = y;
-        y.dir = x;
-    }
-    
-    public boolean hasLeft (Node x) {
-        //verifica se o nó x tem filho a esquerda
-        if (x.esq != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    public boolean hasRight (Node x) {
-        //verifica se o nó x tem filho a direita
-        if (x.dir != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    public void remove (Node x) {
-        //remove o nó x e todos os seus descendentes
-        if (raiz == x) {
-            raiz = null;
-        } else {
-            if(x.pai.esq == x) {
-                x.pai.esq = null;
+
+    public void insere(Node z) {
+        Node y = null;
+        Node x = root();
+        while (x != null) {
+            y = x;
+            if (z.paciente.getCPF().compareTo(x.paciente.getCPF()) < 0) {
+                x = x.left;
             } else {
-                x.pai.dir = null;
+                x = x.right;
+            }
+        }
+        z.parent = y;
+        if (y == null) {
+            root = z;
+        } else if (z.paciente.getCPF().compareTo(y.paciente.getCPF()) < 0) {
+            y.left = z;
+        } else {
+            y.right = z;
+        }
+    }
+
+    public void delete(Node Tree, String Tar) {
+        Node Min;
+        if (Tree == null) { // árvore vazia
+            return;
+        } else if (Tar.compareTo(Tree.paciente.getCPF()) < 0) {
+            delete(Tree.left, Tar); // buscar na esquerda
+        } else if (Tar.compareTo(Tree.paciente.getCPF()) > 0) {
+            delete(Tree.right, Tar);// buscar na direita
+        } else {
+            // encontrou o nó a ser deletado
+            if (Tree.left != null && Tree.right != null) {
+                // nó com dois filhos 
+                Min = minimo(Tree.right);
+                Tree.paciente = Min.paciente;
+                delete(Tree.right, Tree.paciente.getCPF());
+            } else {
+                // nó com um ou nenhum filho
+                if (Tree.left == null) {
+                    if (Tree.parent == null) {
+                        root = Tree.right; // A raiz deverá ser deletada
+                    } else {
+                        if (Tree.right != null) {
+                            Tree.right.parent = Tree.parent;
+                        }
+                        if (Tree == Tree.parent.left) {
+                            Tree.parent.left = Tree.right;
+                        } else {
+                            Tree.parent.right = Tree.right;
+                        }
+                    }
+
+                } else if (Tree.right == null) {
+                    if (Tree.parent == null) {
+                        root = Tree.left; // A raiz deverá ser deletada
+                    } else {
+
+                        Tree.left.parent = Tree.parent;
+                        if (Tree == Tree.parent.left) {
+                            Tree.parent.left = Tree.left;
+                        } else {
+                            Tree.parent.right = Tree.left;
+                        }
+                    }
+                }
             }
         }
     }
+
+    public Node busca(Node k) {
+        Node y = root();
+        while (y != null) {
+            if (y.paciente.getCPF().equals(k.paciente.getCPF())) {
+                return y;
+            } else if (k.paciente.getCPF().compareTo(y.paciente.getCPF()) > 0) {
+                y = y.right;
+            } else {
+                y = y.left;
+            }
+        }
+        return null;
+    }
+
+    public Node maximo(Node x) {
+        //Node<E> x = root();
+        while (x.right != null) {
+            x = x.right;
+        }
+        return x;
+    }
+
+    public Node minimo(Node n) {
+        Node x = n;
+        while (x.left != null) {
+            x = x.left;
+        }
+        return x;
+    }
+
 }

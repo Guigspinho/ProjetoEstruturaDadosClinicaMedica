@@ -5,13 +5,14 @@ import java.util.Scanner;
 Moabe Guedes - 10748053 */
 public class Clinica {
 
-    private Vetor <Paciente> pacientes;
+    //private Vetor <Paciente> pacientes;
+    private BinaryTree pacientes = new BinaryTree();
     Scanner entrada = new Scanner(System.in);
     
     Boolean pacientesCarregados = false;
 
     public Clinica() {
-        pacientes = new Vetor <Paciente> (1000);
+        pacientes = new BinaryTree();
     }
 
     public void exibirMenu() throws Exception {
@@ -125,7 +126,7 @@ public class Clinica {
                     System.out.println("Opção inválida. Tente novamente.\n");
             }
 
-        } while (selecaoMenu != 7);
+        } while (selecaoMenu != 10);
     }
 
 
@@ -139,20 +140,30 @@ public class Clinica {
         int cont = 0;
         while (aux != null) {
             String[] vet = aux.split(";");
-            Paciente p1 = new Paciente((vet[0]), vet[1], vet[2], Long.parseLong(vet[3]), vet[4], Integer.parseInt(vet[5]));
-            pacientes.add(cont, p1);
+            Paciente p1 = new Paciente((vet[0]), vet[1], vet[2], vet[3], vet[4], Integer.parseInt(vet[5]));
+            //pacientes.add(cont, p1);
+            Node nodeTemp = new Node(p1);
+            pacientes.insere(nodeTemp);
             cont++;
             aux = linha.readLine();
         }
         pacientesCarregados = true;
         arquivo.close();
+        System.out.println("Pacientes carregados: " + cont);
     }
 
     //Métodos para implementação
      private void consultarPaciente() {
         System.out.print("Digite o CPF do paciente: ");
         String cpf = entrada.nextLine();
-        boolean pacienteEncontrado = false;
+        Node aux = new Node(new Paciente(cpf, "", "", ""));
+        pacientes.busca(aux);
+        if (pacientes.busca(aux) != null) {
+            System.out.println("Paciente encontrado:\n");
+            pacientes.busca(aux).paciente.mostraPaciente();
+        } else {
+            System.out.println("Paciente não encontrado.");
+        }
     }
 
     private void registrarChegada() {
