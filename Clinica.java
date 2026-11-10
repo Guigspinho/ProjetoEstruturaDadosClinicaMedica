@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 /*Guilherme Gomes Pinho - 10755529
 Moabe Guedes - 10748053 */
 public class Clinica {
@@ -234,9 +236,13 @@ public class Clinica {
         pacienteChamado.mostraPaciente();
     }
 
-    private void relatorioDiario() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'relatorioDiario'");
+    private void relatorioDiario() throws Exception {
+        int pacientesAtendidosHoje = 0;
+        String dataHoje = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        System.out.println("Relatório de atendimentos realizados no dia " + dataHoje + ":");
+        System.out.println("========================================");
+        
+        System.out.println("\nTotal de pacientes atendidos hoje: " + pacientesAtendidosHoje);
     }
 
     private void listarPacientes() {
