@@ -42,4 +42,19 @@ public class Paciente {
     public String getCPF() {
         return CPF;
     }
+
+    public void setUltimaConsulta(String ultimaConsulta) {
+        this.ultimaConsulta = ultimaConsulta;
+    }
+    public void setQtdeConsultas(int qtdeConsultas) {
+        this.qtdeConsultas = qtdeConsultas;
+    }
+
+    public String getUltimaConsulta() {
+        return ultimaConsulta;
+    }
+
+    public int getQtdeConsultas() {
+        return qtdeConsultas;
+    }
 }

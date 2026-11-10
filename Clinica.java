@@ -215,9 +215,23 @@ public class Clinica {
         }
     }
 
-    private void chamarProxPaciente() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'chamarProxPaciente'");
+    private void chamarProxPaciente() throws Exception {
+        if (filaEspera.isEmpty()) {
+            System.out.println("A fila de espera está vazia. Não há pacientes para chamar.");
+            return;
+        }
+        Paciente pacienteChamado = filaEspera.front();
+        filaEspera.dequeue();
+        System.out.println("Chamando próximo paciente:");
+        Node aux = new Node(new Paciente(pacienteChamado.getCPF(), "", "", ""));
+        Node pacienteEncontrado = pacientes.busca(aux);
+        pacienteEncontrado.paciente.mostraPaciente();
+        pacienteEncontrado.paciente.setQtdeConsultas(pacienteEncontrado.paciente.getQtdeConsultas() + 1);
+        System.out.print("Digite a data da consulta (dd/mm/aaaa): ");
+        String dataConsulta = entrada.nextLine();
+        pacienteEncontrado.paciente.setUltimaConsulta(dataConsulta);
+        System.out.println("\nConsulta registrada com sucesso:\n");
+        pacienteChamado.mostraPaciente();
     }
 
     private void relatorioDiario() {
