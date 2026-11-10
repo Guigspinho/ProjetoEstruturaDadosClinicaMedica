@@ -51,7 +51,6 @@ public class Clinica {
 
                     if (pacientesCarregados == false) {
                         carregaTXT();
-                        System.out.println("Pacientes Carregados");
                     }
                     
                     break;
@@ -143,7 +142,6 @@ public class Clinica {
         while (aux != null) {
             String[] vet = aux.split(";");
             Paciente p1 = new Paciente((vet[0]), vet[1], vet[2], vet[3], vet[4], Integer.parseInt(vet[5]));
-            pacientes.add(cont, p1);
             Node nodeTemp = new Node(p1);
             pacientes.insere(nodeTemp);
             cont++;
@@ -200,9 +198,21 @@ public class Clinica {
         System.out.println("\nPaciente registrado na fila de espera com sucesso. Lugar na fila: " + filaEspera.size());
     }
 
-    private void exibirFilaEspera() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exibirFilaEspera'");
+    private void exibirFilaEspera() throws Exception {
+        if (filaEspera.isEmpty()) {
+            System.out.println("A fila de espera está vazia.");
+            return;
+        } else {
+        System.out.println("Fila de espera:");
+        for (int i = 0; i < filaEspera.size(); i++) {
+            Paciente paciente = filaEspera.front();
+            Node aux = new Node(paciente);
+            pacientes.busca(aux);
+            System.out.println((i + 1) + ". " + paciente.getNome() + " - CPF: " + paciente.getCPF());
+            filaEspera.dequeue();
+            filaEspera.enqueue(paciente);
+        }
+        }
     }
 
     private void chamarProxPaciente() {

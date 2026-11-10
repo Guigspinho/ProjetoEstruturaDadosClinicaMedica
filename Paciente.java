@@ -11,7 +11,7 @@ public class Paciente {
         this.CPF = CPF;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
-        this.ultimaConsulta = null;
+        this.ultimaConsulta = "---";
         this.qtdeConsultas = 0;
     }
 
