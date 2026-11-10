@@ -5,7 +5,7 @@ import java.util.Scanner;
 Moabe Guedes - 10748053 */
 public class Clinica {
 
-    private Vetor <Paciente> filaEspera;
+    private Fila <Paciente> filaEspera;
     private BinaryTree pacientes;
     
     Scanner entrada = new Scanner(System.in);
@@ -14,7 +14,7 @@ public class Clinica {
 
     public Clinica() {
         pacientes = new BinaryTree();
-        filaEspera = new Vetor<Paciente>(60);
+        filaEspera = new Fila<Paciente>(60);
     }
 
     public void exibirMenu() throws Exception {
@@ -143,7 +143,7 @@ public class Clinica {
         while (aux != null) {
             String[] vet = aux.split(";");
             Paciente p1 = new Paciente((vet[0]), vet[1], vet[2], vet[3], vet[4], Integer.parseInt(vet[5]));
-            //pacientes.add(cont, p1);
+            pacientes.add(cont, p1);
             Node nodeTemp = new Node(p1);
             pacientes.insere(nodeTemp);
             cont++;
@@ -182,7 +182,7 @@ public class Clinica {
             System.out.println("Paciente encontrado:");
             pacienteEncontrado.paciente.mostraPaciente();
             Paciente pacienteTemp = pacienteEncontrado.paciente;
-            filaEspera.add(filaEspera.size(), pacienteTemp);
+            filaEspera.enqueue(pacienteTemp);
         } else {
             System.out.println("Paciente não encontrado. Complete o cadastro do paciente.");
             System.out.print("Digite o nome do paciente: ");
@@ -195,7 +195,7 @@ public class Clinica {
             Node novoNode = new Node(novoPaciente);
             pacientes.insere(novoNode);
             System.out.println("Paciente cadastrado com sucesso.");
-            filaEspera.add(filaEspera.size(), novoPaciente);
+            filaEspera.enqueue(novoPaciente);
         }
         System.out.println("\nPaciente registrado na fila de espera com sucesso. Lugar na fila: " + filaEspera.size());
     }
