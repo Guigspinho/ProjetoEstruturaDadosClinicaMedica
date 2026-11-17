@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -237,12 +238,17 @@ public class Clinica {
     }
 
     private void relatorioDiario() throws Exception {
-        int pacientesAtendidosHoje = 0;
         String dataHoje = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         System.out.println("Relatório de atendimentos realizados no dia " + dataHoje + ":");
         System.out.println("========================================");
-        
-        System.out.println("\nTotal de pacientes atendidos hoje: " + pacientesAtendidosHoje);
+        System.out.printf("%-30s %-15s %s%n", "Nome", "CPF", "Atendimentos");
+        List<Paciente> atendidosHoje = pacientes.buscarAtendidosNaData(dataHoje);
+        for (Paciente paciente : atendidosHoje) {
+            System.out.printf("%-30s %-15s %d%n",
+                    paciente.getNome(), paciente.getCPF(), paciente.getQtdeConsultas());
+        }
+        System.out.println("\nTotal de pacientes atendidos hoje: " + atendidosHoje.size());
+        System.out.println("Este relatório considera apenas o estado atual dos cadastros, não o histórico completo de consultas.");
     }
 
     private void listarPacientes() {

@@ -1,4 +1,7 @@
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinaryTree {
 
     private Node root; // raiz da árvore   
@@ -48,6 +51,24 @@ public class BinaryTree {
         executaPosOrdem(no.left);
         executaPosOrdem(no.right);
         no.mostraNo();
+    }
+
+    public List<Paciente> buscarAtendidosNaData(String data) {
+        List<Paciente> atendidos = new ArrayList<>();
+        buscarAtendidosNaData(root, data, atendidos);
+        return atendidos;
+    }
+
+    private void buscarAtendidosNaData(Node no, String data, List<Paciente> atendidos) {
+        if (no == null) {
+            return;
+        }
+
+        buscarAtendidosNaData(no.left, data, atendidos);
+        if (data.equals(no.paciente.getUltimaConsulta())) {
+            atendidos.add(no.paciente);
+        }
+        buscarAtendidosNaData(no.right, data, atendidos);
     }
 
     public void insere(Node z) {
