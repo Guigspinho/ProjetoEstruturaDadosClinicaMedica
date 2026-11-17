@@ -59,6 +59,22 @@ public class BinaryTree {
         return atendidos;
     }
 
+    public List<Paciente> listarPacientesEmOrdem() {
+        List<Paciente> lista = new ArrayList<>();
+        listarPacientesEmOrdem(root, lista);
+        return lista;
+    }
+
+    private void listarPacientesEmOrdem(Node no, List<Paciente> lista) {
+        if (no == null) {
+            return;
+        }
+
+        listarPacientesEmOrdem(no.left, lista);
+        lista.add(no.paciente);
+        listarPacientesEmOrdem(no.right, lista);
+    }
+
     private void buscarAtendidosNaData(Node no, String data, List<Paciente> atendidos) {
         if (no == null) {
             return;

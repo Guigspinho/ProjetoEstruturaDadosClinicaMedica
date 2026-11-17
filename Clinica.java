@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.time.format.ResolverStyle;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -33,7 +34,7 @@ public class Clinica {
             System.out.println("6. Relatório de atendimentos realizados no dia");
             System.out.println("7. Listar pacientes em ordem alfabética");
             System.out.println("8. Salvar cadastros atualizados em TXT");
-            System.out.println("9. Funcionalidade adicional (atualizar futuramente)");
+            System.out.println("9. Idade média e categorias etárias");
             System.out.println("10. Sair");
             System.out.println("========================================\n");
             System.out.print("Selecione uma opção: ");
@@ -119,7 +120,7 @@ public class Clinica {
                         System.out.println("É necessário carregar os pacientes antes de acessar essa opção.");
                         break;
                     }
-                    funcAdicional();
+                    idadeMediaPacientesCadastrados();
                     break;
 
                 case 10:
@@ -261,9 +262,69 @@ public class Clinica {
         throw new UnsupportedOperationException("Unimplemented method 'atualizarTXT'");
     }
 
-    private void funcAdicional() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'funcAdicional'");
+    private void idadeMediaPacientesCadastrados() {
+        LocalDate hoje = LocalDate.now();
+        DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+                .withResolverStyle(ResolverStyle.STRICT);
+        long somaIdades = 0;
+        int pacientesComIdadeValida = 0;
+        int criancas = 0;
+        int adolescentes = 0;
+        int adultos = 0;
+        int idosos = 0;
+        int pacientesDesconsiderados = 0;
+
+        for (Paciente paciente : pacientes.listarPacientesEmOrdem()) {
+            LocalDate nascimento = LocalDate.parse(paciente.getDataNascimento(), formatoData);
+            if (nascimento.isAfter(hoje)) {
+                pacientesDesconsiderados++;
+            } else {
+                int idade = hoje.getYear() - nascimento.getYear();
+                if (hoje.getMonthValue() < nascimento.getMonthValue()
+                        || (hoje.getMonthValue() == nascimento.getMonthValue()
+                        && hoje.getDayOfMonth() < nascimento.getDayOfMonth())) {
+                    idade--;
+                }
+
+                somaIdades += idade;
+                pacientesComIdadeValida++;
+
+                if (idade <= 12) {
+                    criancas++;
+                } else if (idade <= 17) {
+                    adolescentes++;
+                } else if (idade <= 59) {
+                    adultos++;
+                } else {
+                    idosos++;
+                }
+            }
+        }
+
+        System.out.println("Relatório de idade dos pacientes cadastrados:");
+        if (pacientesComIdadeValida == 0) {
+            System.out.println("Idade média geral: indisponível (nenhum paciente com data de nascimento válida).");
+        } else {
+            System.out.printf("Idade média geral: %.1f anos%n", somaIdades / (double) pacientesComIdadeValida);
+        }
+
+        System.out.println("Percentual por categoria:");
+        exibirPercentualCategoria("Crianças (0–12 anos)", criancas, pacientesComIdadeValida);
+        exibirPercentualCategoria("Adolescentes (13–17 anos)", adolescentes, pacientesComIdadeValida);
+        exibirPercentualCategoria("Adultos (18–59 anos)", adultos, pacientesComIdadeValida);
+        exibirPercentualCategoria("Idosos (60 anos ou mais)", idosos, pacientesComIdadeValida);
+        if (pacientesDesconsiderados > 0) {
+            System.out.println("Cadastros com data de nascimento futura desconsiderados: "
+                    + pacientesDesconsiderados);
+        }
+    }
+
+    private void exibirPercentualCategoria(String nomeCategoria, int quantidade, int total) {
+        if (total == 0) {
+            System.out.println(nomeCategoria + ": indisponível");
+        } else {
+            System.out.printf("%s: %.1f%%%n", nomeCategoria, 100.0 * quantidade / total);
+        }
     }
 
 }

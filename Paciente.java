@@ -43,6 +43,10 @@ public class Paciente {
         return CPF;
     }
 
+    public String getDataNascimento() {
+        return dataNascimento;
+    }
+
     public void setUltimaConsulta(String ultimaConsulta) {
         this.ultimaConsulta = ultimaConsulta;
     }
